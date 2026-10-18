@@ -19,6 +19,15 @@ jobs:
           F=$(curl -s "https://api.modrinth.com/v2/project/fabric-api/version?game_versions=%5B%22$MC%22%5D&loaders=%5B%22fabric%22%5D" | jq -r '.[0].version_number')
           sed -i "s/^yarn_mappings=.*/yarn_mappings=$Y/;s/^loader_version=.*/loader_version=$L/;s/^fabric_version=.*/fabric_version=$F/" gradle.properties
           cat gradle.properties
+          cat > settings.gradle <<'EOT'
+          pluginManagement {
+            repositories {
+              maven { url = 'https://maven.fabricmc.net/' }
+              gradlePluginPortal()
+            }
+          }
+          rootProject.name = 'chaosclient'
+          EOT
       - run: gradle build
         working-directory: chaosclient
       - uses: actions/upload-artifact@v4
