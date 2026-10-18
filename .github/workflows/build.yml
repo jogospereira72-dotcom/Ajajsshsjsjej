@@ -1,1 +1,25 @@
-
+name: build
+on: workflow_dispatch
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: unzip -q chaosclient.zip
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 21 }
+      - uses: gradle/actions/setup-gradle@v4
+        with: { gradle-version: "8.14" }
+      - name: versoes
+        working-directory: chaosclient
+        run: |
+          MC=1.21.11
+          Y=$(curl -s https://meta.fabricmc.net/v2/versions/yarn/$MC | jq -r '.[0].version')
+          L=$(curl -s https://meta.fabricmc.net/v2/versions/loader | jq -r '[.[]|select(.stable)][0].version')
+          F=$(curl -s "https://api.modrinth.com/v2/project/fabric-api/version?game_versions=%5B%22$MC%22%5D&loaders=%5B%22fabric%22%5D" | jq -r '.[0].version_number')
+          sed -i "s/^yarn_mappings=.*/yarn_mappings=$Y/;s/^loader_version=.*/loader_version=$L/;s/^fabric_version=.*/fabric_version=$F/" gradle.properties
+          cat gradle.properties
+      - run: gradle build
+        working-directory: chaosclient
+      - uses: actions/upload-artifact@v4
+        with: { name: chaosclient, path: chaosclient/build/libs/*.jar }
