@@ -16,19 +16,37 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Extrair projeto Fabric
+        run: unzip -q chaosclient-completo.zip
+
       - name: Instalar Java 21
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
-          cache: gradle
 
-      - name: Garantir permissões
-        run: chmod +x ./gradlew
+      - name: Configurar Gradle 9.2.1
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.2.1'
 
-      - name: Compilar Minecraft 1.21.11
-        run: ./gradlew clean build --no-daemon --stacktrace
+      - name: Verificar versões
+        working-directory: chaosclient-completo
+        run: |
+          grep -E 'minecraft_version|yarn_mappings|loader_version|loom_version|fabric_version' gradle.properties
+          test -f build.gradle
+          test -f gradlew
+          test -f src/main/resources/fabric.mod.json
+
+      - name: Compilar JAR
+        working-directory: chaosclient-completo
+        run: |
+          chmod +x ./gradlew
+          ./gradlew clean build --no-daemon --stacktrace
 
       - name: Publicar JAR
         uses: actions/upload-artifact@v4
         with:
+          name: chaosclient-1.21.11
+          path: chaosclient-completo/build/libs/*.jar
+          if-no-files-found: error
