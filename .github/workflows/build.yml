@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Extrair projeto Fabric
-        run: unzip -q chaosclient-completo.zip
+        run: unzip -q chaosclient-lunar.zip
 
       - name: Instalar Java 21
         uses: actions/setup-java@v4
@@ -31,7 +31,7 @@ jobs:
           gradle-version: '9.2.1'
 
       - name: Verificar versões
-        working-directory: chaosclient-completo
+        working-directory: chaosclient-lunar
         run: |
           grep -E 'minecraft_version|yarn_mappings|loader_version|loom_version|fabric_version' gradle.properties
           test -f build.gradle
@@ -39,7 +39,7 @@ jobs:
           test -f src/main/resources/fabric.mod.json
 
       - name: Compilar JAR
-        working-directory: chaosclient-completo
+        working-directory: chaosclient-lunar
         run: |
           chmod +x ./gradlew
           ./gradlew clean build --no-daemon --stacktrace
@@ -48,5 +48,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: chaosclient-1.21.11
-          path: chaosclient-completo/build/libs/*.jar
+          path: chaosclient-lunar/build/libs/*.jar
           if-no-files-found: error
