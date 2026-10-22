@@ -75,14 +75,14 @@ public class FeatureExecutor {
 
     private void tickTriggerBot() {
         if (CLIENT.crosshairTarget != null && CLIENT.crosshairTarget.getType().name().equals("ENTITY")) {
-            CLIENT.options.attackKey.click();
+            CLIENT.options.attackKey.setPressed(true);
         }
     }
 
     private void tickAutoClicker() {
         long now = System.currentTimeMillis();
         if (now - lastAutoClickerClick > autoClickerDelay) {
-            CLIENT.options.attackKey.click();
+            CLIENT.options.attackKey.setPressed(true);
             lastAutoClickerClick = now;
         }
     }
@@ -159,7 +159,7 @@ public class FeatureExecutor {
 
     private void tickNoSlow() {
         if (CLIENT.player.isUsingItem()) {
-            CLIENT.player.getAttributes().getBaseValue(net.minecraft.entity.attribute.EntityAttributes.MOVEMENT_SPEED).setBaseValue(0.1);
+            CLIENT.player.getAttributeInstance(net.minecraft.entity.attribute.EntityAttributes.MOVEMENT_SPEED).setBaseValue(0.1);
         }
     }
 

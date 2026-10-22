@@ -99,7 +99,7 @@ public class CombatFeatures {
 
     private void tickAutoBlock(MinecraftClient client) {
         if (client.player != null) {
-            client.options.useKey.click();
+            client.options.useKey.setPressed(true);
         }
     }
 
@@ -107,7 +107,7 @@ public class CombatFeatures {
         if (client.player != null && client.player.getHealth() < healThreshold) {
             // Use healing item from hotbar
             if (client.player.getMainHandStack().contains(DataComponentTypes.FOOD)) {
-                client.options.useKey.click();
+                client.options.useKey.setPressed(true);
             }
         }
     }

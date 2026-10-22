@@ -6,7 +6,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.RaycastContext;
+import net.minecraft.world.RaycastContext;
 import net.minecraft.util.hit.HitResult;
 
 public class CombatUtils {

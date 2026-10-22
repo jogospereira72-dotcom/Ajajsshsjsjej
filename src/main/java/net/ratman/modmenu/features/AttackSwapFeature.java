@@ -3,7 +3,7 @@ package net.ratman.modmenu.features;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemTags;
+import net.minecraft.registry.tag.ItemTags;
 
 public class AttackSwapFeature {
     private static AttackSwapFeature instance;
