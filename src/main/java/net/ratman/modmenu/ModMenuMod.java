@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.util.Identifier;
 import net.ratman.modmenu.features.FeatureExecutor;
 import org.lwjgl.glfw.GLFW;
 
@@ -14,7 +15,7 @@ public class ModMenuMod implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         menuKey = KeyBindingHelper.registerKeyBinding(
-            new KeyBinding("key.modmenu.open", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_M, KeyBinding.Category.create("category.modmenu"))
+            new KeyBinding("key.modmenu.open", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_M, KeyBinding.Category.create(Identifier.of("modmenu", "category")))
         );
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
