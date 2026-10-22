@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.ratman.modmenu.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "ClientTickMixin",
+    "BlockRenderMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
