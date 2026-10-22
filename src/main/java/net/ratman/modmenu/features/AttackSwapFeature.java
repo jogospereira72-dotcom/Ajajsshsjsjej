@@ -3,7 +3,7 @@ package net.ratman.modmenu.features;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.SwordItem;
+import net.minecraft.item.ItemTags;
 
 public class AttackSwapFeature {
     private static AttackSwapFeature instance;
@@ -20,22 +20,22 @@ public class AttackSwapFeature {
         if (!enabled || client.player == null) return;
 
         if (isSword(client.player.getInventory().getStack(weaponSlot))) {
-            client.player.getInventory().selectedSlot = weaponSlot;
+            client.player.getInventory().setSelectedSlot(weaponSlot);
         }
     }
 
     public void onPlaceBlock(MinecraftClient client) {
         if (!enabled || client.player == null) return;
-        client.player.getInventory().selectedSlot = blockSlot;
+        client.player.getInventory().setSelectedSlot(blockSlot);
     }
 
     private boolean isSword(net.minecraft.item.ItemStack stack) {
-        return stack.getItem() instanceof SwordItem;
+        return stack.isIn(ItemTags.SWORDS);
     }
 
     public void swapToSlot(int slot) {
         if (slot >= 0 && slot <= 8) {
-            MinecraftClient.getInstance().player.getInventory().selectedSlot = slot;
+            MinecraftClient.getInstance().player.getInventory().setSelectedSlot(slot);
         }
     }
 }

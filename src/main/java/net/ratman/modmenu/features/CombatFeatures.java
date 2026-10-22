@@ -5,6 +5,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.entity.EntityPose;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.entity.EntityPose;
+import net.minecraft.component.DataComponentTypes;
 
 public class CombatFeatures {
     private static CombatFeatures instance;
@@ -88,22 +92,22 @@ public class CombatFeatures {
     }
 
     private void tickNoFall(MinecraftClient client) {
-        if (client.player != null && client.player.isFallFlying()) {
+        if (client.player != null && client.player.getPose() == EntityPose.GLIDING) {
             client.player.setVelocity(client.player.getVelocity().x, 0, client.player.getVelocity().z);
         }
     }
 
     private void tickAutoBlock(MinecraftClient client) {
         if (client.player != null) {
-            client.options.useKey.press();
+            client.options.useKey.click();
         }
     }
 
     private void tickAutoHeal(MinecraftClient client) {
         if (client.player != null && client.player.getHealth() < healThreshold) {
             // Use healing item from hotbar
-            if (client.player.getMainHandStack().isFood()) {
-                client.options.useKey.press();
+            if (client.player.getMainHandStack().contains(DataComponentTypes.FOOD)) {
+                client.options.useKey.click();
             }
         }
     }

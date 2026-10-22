@@ -75,14 +75,14 @@ public class FeatureExecutor {
 
     private void tickTriggerBot() {
         if (CLIENT.crosshairTarget != null && CLIENT.crosshairTarget.getType().name().equals("ENTITY")) {
-            CLIENT.options.attackKey.press();
+            CLIENT.options.attackKey.click();
         }
     }
 
     private void tickAutoClicker() {
         long now = System.currentTimeMillis();
         if (now - lastAutoClickerClick > autoClickerDelay) {
-            CLIENT.options.attackKey.press();
+            CLIENT.options.attackKey.click();
             lastAutoClickerClick = now;
         }
     }
@@ -113,11 +113,11 @@ public class FeatureExecutor {
     }
 
     private void tickFastPlace() {
-        CLIENT.interactionManager.getBlockActionCooldown().set(0);
+        // Block action cooldown is internal in 1.21.11; no public API equivalent.
     }
 
     private void tickFastBreak() {
-        CLIENT.interactionManager.getBlockBreakingCooldown().set(0);
+        // Block breaking cooldown is internal in 1.21.11; no public API equivalent.
     }
 
     // MOVEMENT FEATURES (7)
@@ -159,7 +159,7 @@ public class FeatureExecutor {
 
     private void tickNoSlow() {
         if (CLIENT.player.isUsingItem()) {
-            CLIENT.player.getAttributes().getBaseValue(net.minecraft.entity.attribute.EntityAttributes.GENERIC_MOVEMENT_SPEED).setBaseValue(0.1);
+            CLIENT.player.getAttributes().getBaseValue(net.minecraft.entity.attribute.EntityAttributes.MOVEMENT_SPEED).setBaseValue(0.1);
         }
     }
 
@@ -209,7 +209,7 @@ public class FeatureExecutor {
     }
 
     private float getYawToEntity(Entity entity) {
-        net.minecraft.util.math.Vec3d diff = entity.getPos().subtract(CLIENT.player.getPos());
+        net.minecraft.util.math.Vec3d diff = new net.minecraft.util.math.Vec3d(entity.getX(), entity.getY(), entity.getZ()).subtract(new net.minecraft.util.math.Vec3d(CLIENT.player.getX(), CLIENT.player.getY(), CLIENT.player.getZ()));
         return (float) Math.atan2(diff.z, diff.x) * 180 / (float) Math.PI - 90;
     }
 

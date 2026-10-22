@@ -2,6 +2,7 @@ package net.ratman.modmenu;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.text.Text;
 import net.ratman.modmenu.features.AimbotFeature;
 import net.ratman.modmenu.features.AttackSwapFeature;
@@ -88,7 +89,10 @@ public class ModMenuScreen extends Screen {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(MouseButtonEvent click, boolean doubleClick) {
+        double mouseX = click.x();
+        double mouseY = click.y();
+        int button = click.button();
         if (button == 0) {
             int btnY = menuY + 30;
             int btnX = menuX + 10;
@@ -148,7 +152,7 @@ public class ModMenuScreen extends Screen {
                 return true;
             }
         }
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(click, doubleClick);
     }
 
     @Override

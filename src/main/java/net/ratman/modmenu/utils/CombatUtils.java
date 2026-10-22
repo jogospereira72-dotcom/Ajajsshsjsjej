@@ -6,6 +6,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.RaycastContext;
+import net.minecraft.util.hit.HitResult;
 
 public class CombatUtils {
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
@@ -25,15 +27,15 @@ public class CombatUtils {
     public static boolean isEntityVisible(Entity entity) {
         if (CLIENT.player == null) return false;
         Vec3d playerEyes = CLIENT.player.getEyePos();
-        Vec3d entityEyes = entity.getPos().add(0, entity.getHeight() / 2, 0);
-        return CLIENT.world.raycast(new net.minecraft.util.hit.HitResult.Type[]{net.minecraft.util.hit.HitResult.Type.BLOCK})
-            == null || getDistance(entity) < 2.0;
+        Vec3d entityEyes = new net.minecraft.util.math.Vec3d(entity.getX(), entity.getY(), entity.getZ()).add(0, entity.getHeight() / 2, 0);
+        return CLIENT.world.raycast(new RaycastContext(playerEyes, entityEyes, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, CLIENT.player)).getType() == HitResult.Type.MISS
+            || getDistance(entity) < 2.0;
     }
 
     // 4. Get angle to entity (yaw)
     public static float getYawToEntity(Entity entity) {
         if (CLIENT.player == null) return 0;
-        Vec3d diff = entity.getPos().subtract(CLIENT.player.getPos());
+        Vec3d diff = new net.minecraft.util.math.Vec3d(entity.getX(), entity.getY(), entity.getZ()).subtract(new net.minecraft.util.math.Vec3d(CLIENT.player.getX(), CLIENT.player.getY(), CLIENT.player.getZ()));
         return (float) Math.atan2(diff.z, diff.x) * 180 / (float) Math.PI - 90;
     }
 
@@ -79,7 +81,7 @@ public class CombatUtils {
 
     // 11. Calculate predicted position (lead targeting)
     public static Vec3d getPredictedPosition(Entity entity, float ticks) {
-        Vec3d currentPos = entity.getPos();
+        Vec3d currentPos = new net.minecraft.util.math.Vec3d(entity.getX(), entity.getY(), entity.getZ());
         Vec3d velocity = entity.getVelocity();
         return currentPos.add(velocity.multiply(ticks / 20.0));
     }
@@ -91,12 +93,12 @@ public class CombatUtils {
 
     // 13. Get entity center position
     public static Vec3d getEntityCenterPos(Entity entity) {
-        return entity.getPos().add(0, entity.getHeight() / 2, 0);
+        return new net.minecraft.util.math.Vec3d(entity.getX(), entity.getY(), entity.getZ()).add(0, entity.getHeight() / 2, 0);
     }
 
     // 14. Get entity feet position
     public static Vec3d getEntityFeetPos(Entity entity) {
-        return entity.getPos();
+        return new net.minecraft.util.math.Vec3d(entity.getX(), entity.getY(), entity.getZ());
     }
 
     // 15. Check if player is looking at entity

@@ -20,9 +20,9 @@ public class RenderUtils {
         double x = box.minX - CLIENT.player.getX();
         double y = box.minY - CLIENT.player.getY();
         double z = box.minZ - CLIENT.player.getZ();
-        double width = box.getXLength();
-        double height = box.getYLength();
-        double depth = box.getZLength();
+        double width = box.maxX - box.minX;
+        double height = box.maxY - box.minY;
+        double depth = box.maxZ - box.minZ;
 
         // Draw outline (simplified 2D projection)
         int r = (color >> 16) & 0xFF;
@@ -34,7 +34,7 @@ public class RenderUtils {
     // 2. Draw text at entity
     public static void drawTextAtEntity(Entity entity, String text, int color) {
         if (CLIENT.player == null || CLIENT.textRenderer == null) return;
-        Vec3d pos = entity.getPos();
+        Vec3d pos = new net.minecraft.util.math.Vec3d(entity.getX(), entity.getY(), entity.getZ());
         // Text rendering would go here with camera transform
     }
 

@@ -14,7 +14,7 @@ public class ModMenuMod implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         menuKey = KeyBindingHelper.registerKeyBinding(
-            new KeyBinding("key.modmenu.open", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_M, "category.modmenu")
+            new KeyBinding("key.modmenu.open", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_M, KeyBinding.Category.register(KeyBinding.Category.register("category.modmenu")))
         );
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {

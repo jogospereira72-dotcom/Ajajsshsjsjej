@@ -41,7 +41,7 @@ public class ServerBypassFeature {
         if (client.player == null) return null;
 
         // Return legitimate position but with slight randomization to evade detection
-        Vec3d actualPos = client.player.getPos();
+        Vec3d actualPos = new net.minecraft.util.math.Vec3d(client.player.getX(), client.player.getY(), client.player.getZ());
         double offsetX = (Math.random() - 0.5) * 0.001; // microoffset
         double offsetZ = (Math.random() - 0.5) * 0.001;
 

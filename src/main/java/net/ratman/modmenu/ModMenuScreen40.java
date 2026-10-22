@@ -2,6 +2,7 @@ package net.ratman.modmenu;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.text.Text;
 import net.ratman.modmenu.features.FeatureRegistry;
 import net.ratman.modmenu.features.FeatureExecutor;
@@ -116,7 +117,10 @@ public class ModMenuScreen40 extends Screen {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(MouseButtonEvent click, boolean doubleClick) {
+        double mouseX = click.x();
+        double mouseY = click.y();
+        int button = click.button();
         if (button == 0) {
             // Tab selection
             int tabY = menuY + 25;
@@ -195,7 +199,7 @@ public class ModMenuScreen40 extends Screen {
                 if (clickFeature(mouseX, mouseY, contentX, contentY + 96, contentW, btnH, 6)) { registry.utility.phase = !registry.utility.phase; return true; }
             }
         }
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(click, doubleClick);
     }
 
     private boolean clickFeature(double mouseX, double mouseY, int x, int y, int w, int h, int index) {

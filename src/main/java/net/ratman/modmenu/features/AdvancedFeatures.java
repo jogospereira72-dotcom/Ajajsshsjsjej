@@ -45,7 +45,7 @@ public class AdvancedFeatures {
 
     // 1. Trajectory Prediction
     public Vec3d predictProjectilePath(Entity projectile, int ticks) {
-        Vec3d pos = projectile.getPos();
+        Vec3d pos = new net.minecraft.util.math.Vec3d(projectile.getX(), projectile.getY(), projectile.getZ());
         Vec3d vel = projectile.getVelocity();
         for (int i = 0; i < ticks; i++) {
             vel = vel.add(0, -0.03, 0); // gravity
@@ -56,8 +56,8 @@ public class AdvancedFeatures {
 
     // 2. Hit Prediction
     public boolean willHitEntity(Entity attacker, Entity target, int predictTicks) {
-        Vec3d attackerPos = attacker.getPos();
-        Vec3d targetPos = target.getPos().add(target.getVelocity().multiply(predictTicks / 20.0));
+        Vec3d attackerPos = new net.minecraft.util.math.Vec3d(attacker.getX(), attacker.getY(), attacker.getZ());
+        Vec3d targetPos = new net.minecraft.util.math.Vec3d(target.getX(), target.getY(), target.getZ()).add(target.getVelocity().multiply(predictTicks / 20.0));
         return attackerPos.distanceTo(targetPos) < 5.0;
     }
 
@@ -134,7 +134,7 @@ public class AdvancedFeatures {
 
     // 12. Predictive Aim
     public Vec3d getPredictedAimAngle(Entity target, float projectileSpeed) {
-        Vec3d targetPos = target.getPos();
+        Vec3d targetPos = new net.minecraft.util.math.Vec3d(target.getX(), target.getY(), target.getZ());
         Vec3d targetVel = target.getVelocity();
         Vec3d predictedPos = targetPos.add(targetVel.multiply(5.0));
         return predictedPos;
@@ -189,7 +189,7 @@ public class AdvancedFeatures {
 
     // 19. Path Tracer
     public void traceEntityPath(Entity entity, int ticks) {
-        Vec3d startPos = entity.getPos();
+        Vec3d startPos = new net.minecraft.util.math.Vec3d(entity.getX(), entity.getY(), entity.getZ());
         for (int i = 0; i < ticks; i++) {
             // Draw line showing path
         }
